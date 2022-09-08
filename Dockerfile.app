@@ -7,8 +7,12 @@ RUN apk add --no-cache wget \
 
 COPY requirements.txt /tmp
 
+RUN apk update  && apk add gcompat
+# apk --no-cache --allow-untrusted -X https://apkproxy.herokuapp.com/sgerrand/alpine-pkg-glibc add glibc 
+
 RUN apk add --no-cache --virtual build-deps gcc python3-dev musl-dev \
     && apk add --no-cache postgresql-dev \
+    && apk add --no-cache --update libffi-dev libgcc libstdc++ \
     && pip install -r /tmp/requirements.txt \
     && apk del build-deps
 
